@@ -2,6 +2,15 @@
 
 AgentControl Docs 包含 AgentControl 项目的跨仓库文档。
 
+## GitHub 仓库
+
+| 仓库 | 地址 |
+|------|------|
+| 本项目（Docs） | https://github.com/yulimfish/agentcontrol-docs |
+| 总仓 | https://github.com/yulimfish/agentcontrol |
+| Fabric 模组 | https://github.com/yulimfish/agentcontrol-fabric |
+| MCP 服务 | https://github.com/yulimfish/agentcontrol-mcp |
+
 ## 与其他仓库的关系
 
 - `AgentControl`：包含 Fabric、MCP 和 Docs 的总仓。
