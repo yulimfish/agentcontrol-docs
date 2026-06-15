@@ -5,9 +5,6 @@ hero:
   name: AgentControl
   text: 让 AI 控制你的 Minecraft 客户端
   tagline: 本地 Fabric 模组 + MCP 服务桥接，无需服务端插件，无需机器人账号
-  image:
-    src: /hero.svg
-    alt: AgentControl
   actions:
     - theme: brand
       text: 快速上手

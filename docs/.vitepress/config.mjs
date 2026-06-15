@@ -7,8 +7,7 @@ export default defineConfig({
   base: '/agentcontrol-docs/',
   
   themeConfig: {
-    logo: '/logo.svg',
-    
+
     nav: [
       { text: '首页', link: '/' },
       { text: '快速上手', link: '/guide/quickstart' },
