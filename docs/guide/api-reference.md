@@ -14,6 +14,7 @@ GET http://127.0.0.1:17777/state?scanRadius=8
 | 参数 | 类型 | 范围 | 默认值 | 说明 |
 |------|------|------|--------|------|
 | `scanRadius` | 整数 | 1-16 | 4 | 附近方块扫描半径。范围越大返回的方块信息越多，但 JSON 响应体积也越大。 |
+| `filter` | 字符串 | - | - | 按方块 ID 子串过滤 `nearbyBlocks`。只有 ID 包含此字符串的方块才会返回。用于高效定位特定方块（如 `shulker_box`、`chest`），避免被数千个 stone/dirt 淹没。 |
 
 ### 响应字段
 
@@ -185,7 +186,11 @@ GET http://127.0.0.1:17777/state?scanRadius=8
   "y": 64,
   "z": -256,
   "distance": 2.3,
-  "solid": true
+  "solid": true,
+  "properties": {
+    "color": "purple",
+    "facing": "east"
+  }
 }
 ```
 
@@ -194,6 +199,7 @@ GET http://127.0.0.1:17777/state?scanRadius=8
 - `x`/`y`/`z`：方块坐标
 - `distance`：距玩家的距离
 - `solid`：是否为固体方块
+- `properties`：方块状态属性（可选，仅当方块有属性时返回）。例如潜影盒的 `color`、门的 `facing` 等。**关键**：必须检查此字段来区分同一方块 ID 的不同变体（如不同颜色的潜影盒）。
 
 **ENTITY 类型：**
 
@@ -236,6 +242,14 @@ GET http://127.0.0.1:17777/state?scanRadius=8
 - `solid`：是否为固体方块
 
 范围由 `scanRadius` 参数控制（默认 4 格，即 9×9×9 区域）。空气方块被省略以减少数据量。
+
+::: tip 使用 filter 高效搜索
+不加过滤地扫描所有方块会返回 2000+ 个 stone/dirt 条目。使用 `filter` 参数只搜索目标方块：
+```text
+GET /state?filter=shulker_box&scan_radius=8 → 只返回潜影盒
+```
+这大幅减少响应数据量，也减少 AI 处理的上下文。
+:::
 
 #### `nearbyEntities` — 附近实体
 
@@ -330,12 +344,11 @@ http://127.0.0.1:17777/action?type=look_at&x=128&y=64&z=-256
 如果传入整数方块坐标（如 `x=128`、`y=64`、`z=-256`），模组会自动加 0.5 偏移，实际对准 `(128.5, 64.5, -255.5)` 的方块中心。这是为了确保射线穿过方块碰撞箱，而非从方块边缘穿过。如果传入小数坐标，保持原样。
 
 **破坏方块的推荐流程：**
-1. `get_client_state` → 获取 `nearbyBlocks`
-2. 选择目标方块（获取整数坐标）
-3. `mod_look_at(x, y, z)` → 模组自动对准方块中心
-4. `get_client_state` → 验证 `crosshairTarget` 是否命中目标方块
-5. 如果命中 → `mod_break_crosshair_block` 或 `mod_place_crosshair_block`
-6. 如果未命中 → 调整位置或视角，重复步骤 3-4
+1. `get_client_state(filter="目标方块ID")` → 获取目标方块坐标
+2. `mod_look_at(x, y, z)` → 模组自动对准方块中心
+3. `get_client_state` → 验证 `crosshairTarget.block` 和 `crosshairTarget.properties`（如 `color`）是否匹配目标
+4. 如果匹配 → `mod_break_crosshair_block` 或 `mod_place_crosshair_block`
+5. 如果不匹配 → 说明命中了其他方块，移动到不同角度（如从东侧或西侧接近）后重试
 :::
 
 **面朝南方：**
