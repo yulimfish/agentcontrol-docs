@@ -10,6 +10,17 @@
 
 AI 会自动完成配置并重启 OpenCode。重启后以下工具将可用：
 
+::: danger ⚠️ 使用前置条件
+执行任何动作前，如果 Minecraft 的游戏菜单（ESC 暂停菜单）或其他界面已打开，必须先关闭界面。否则动作会被 Minecraft 拦截，无法生效。
+
+**正确流程**：
+1. 先调用 `get_client_state` 读取状态，检查 `screen` 字段是否为 `null`
+2. 如果 `screen` 不为 `null`（如 `net.minecraft.class_433` 表示 ESC 菜单），先执行 `mod_close_screen` 关闭界面
+3. 如果仍未关闭，执行 `mod_release_mouse` 释放鼠标
+4. 确认 `screen` 为 `null` 后，再执行目标动作
+5. 动作完成后，再次读取状态确认效果
+:::
+
 | 工具 | 说明 |
 |------|------|
 | `get_client_state` | 读取 Minecraft 客户端状态（支持 `scan_radius` 参数） |
