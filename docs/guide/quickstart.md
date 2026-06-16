@@ -58,6 +58,8 @@ http://127.0.0.1:17777/state?scanRadius=8
 AI 助手会自动完成以下配置：
 
 1. 确认 `agentcontrol-mcp` 代码已下载到本地
+   - 仓库地址：[GitHub - agentcontrol-mcp](https://github.com/yulimfish/agentcontrol-mcp)
+   - 详细配置说明：[配置 MCP 服务文档](/guide/mcp)
 2. 在 OpenCode 配置中添加 MCP 入口：
    ```jsonc
    "agentcontrol": {
@@ -85,6 +87,12 @@ AI 助手会自动完成以下配置：
 ```
 
 修改后**必须退出并重启 OpenCode**。
+
+::: tip 相关链接
+- [MCP 服务仓库](https://github.com/yulimfish/agentcontrol-mcp)
+- [MCP 详细配置说明](/guide/mcp)
+- [MCP 工具列表和用法](/guide/mcp#工具列表)
+:::
 
 ---
 
