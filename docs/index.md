@@ -32,6 +32,9 @@ features:
   - icon: 🧠
     title: 世界记忆缓存
     details: 自动缓存已探索区域的方块数据，按维度隔离存储。退出后重进可恢复对世界的认知。状态端点支持 scanRadius 参数调整扫描范围。
+  - icon: 📖
+    title: 完整 API 文档
+    details: 提供详细的 API 参考文档，包含状态端点所有字段说明、动作端点参数表、12 种工具使用示例。帮助 AI 精确理解你的 Minecraft 状态。
   - icon: 🌐
     title: 开源 & 可扩展
     details: 基于 MIT 许可发布。代码清晰模块化，支持 12 种动作类型和完整状态读取。欢迎提交 PR 和 Issue。
