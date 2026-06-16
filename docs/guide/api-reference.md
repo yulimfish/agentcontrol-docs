@@ -288,24 +288,16 @@ GET http://127.0.0.1:17777/state?scanRadius=8
 GET http://127.0.0.1:17777/action?type=<action_type>&<params>
 ```
 
-::: danger ⚠️ 前置条件：必须关闭游戏菜单
-执行任何动作前，如果 Minecraft 的游戏菜单（ESC 暂停菜单）或其他界面已打开，必须先关闭界面。否则所有动作都会被 Minecraft 拦截，无法生效。
-
-**正确流程**：
-1. 先读取状态，检查 `screen` 字段是否为 `null`
-2. 如果 `screen` 不为 `null`（如 `net.minecraft.class_433` 表示 ESC 菜单），先执行 `close_screen` 关闭界面
-3. 如果 `close_screen` 后菜单仍未关闭（某些界面可能无法通过 `close_screen` 关闭），再执行 `release_mouse` 释放鼠标
-4. 确认界面已关闭（再次读取状态，确认 `screen` 为 `null`）
-5. 再执行目标动作
-6. 动作完成后，再次读取状态确认效果
-
-**原因**：Minecraft 在界面打开时会拦截所有移动和交互输入，导致动作无效。Agent 必须在执行动作前确保玩家处于"无界面"状态。
+::: danger 前置条件：自动关闭屏幕
+MCP 服务端在每次执行动作前会自动检查并关闭屏幕。如果界面已打开，会先尝试 `close_screen`，如果仍未关闭，则执行 `release_mouse`。此过程对 AI 透明，无需手动操作。
 :::
 
 | 类型 | 参数 | 说明 |
 |------|------|------|
 | `move` | `direction` (forward/back/left/right/jump/sneak/sprint), `durationMs` (50-10000, 默认 1000) | 移动或跳跃、潜行、疾跑 |
-| `look` | `yaw` (-180-180), `pitch` (-90-90) | 设置视角朝向 |
+| `look` | `yaw` (-180-180), `pitch` (-90-90) | 设置视角朝向（精确角度） |
+| `look_at` | `x` (double), `y` (double), `z` (double) | 对准指定世界坐标（自动计算 yaw/pitch） |
+| `look_facing` | `direction` (north/south/east/west/up/down) | 面朝指定方位 |
 | `attack` | — | 攻击实体或破坏方块 |
 | `use` | — | 使用物品（进食、拉弓、右键交互） |
 | `break_crosshair` | — | 破坏准星指向的方块 |
@@ -326,6 +318,16 @@ http://127.0.0.1:17777/action?type=move&direction=forward&durationMs=2000
 **设置视角：**
 ```text
 http://127.0.0.1:17777/action?type=look&yaw=90&pitch=0
+```
+
+**对准指定方块（用于破坏前瞄准）：**
+```text
+http://127.0.0.1:17777/action?type=look_at&x=128.5&y=64.0&z=-256.5
+```
+
+**面朝南方：**
+```text
+http://127.0.0.1:17777/action?type=look_facing&direction=south
 ```
 
 **攻击：**
