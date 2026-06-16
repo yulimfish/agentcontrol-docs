@@ -12,13 +12,16 @@ AI 会自动完成配置并重启 OpenCode。重启后以下工具将可用：
 
 | 工具 | 说明 |
 |------|------|
-| `get_client_state` | 读取 Minecraft 客户端状态 |
-| `mod_move_player` | 移动玩家 |
+| `get_client_state` | 读取 Minecraft 客户端状态（支持 `scan_radius` 参数） |
+| `mod_move_player` | 移动玩家（WASD / 跳跃 / 潜行 / 疾跑） |
 | `mod_look` | 调整视角 |
 | `mod_attack` | 攻击 |
 | `mod_use_item` | 使用物品 |
 | `mod_break_crosshair_block` | 破坏准星方块 |
 | `mod_place_crosshair_block` | 放置/使用方块 |
+| `mod_select_slot` | 切换快捷栏槽位（0-8） |
+| `mod_drop` | 丢弃手持物品 |
+| `mod_swap_hands` | 主副手交换 |
 | `mod_close_screen` | 关闭界面 |
 | `mod_release_mouse` | 释放鼠标 |
 
