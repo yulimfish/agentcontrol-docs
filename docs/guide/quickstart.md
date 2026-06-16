@@ -52,7 +52,7 @@ http://127.0.0.1:17777/state?scanRadius=8
 ## 第二步：配置 MCP 服务（一句话搞定）
 
 ::: tip 对 AI 助手说
-"帮我安装 AgentControl MCP"
+"帮我安装 AgentControl MCP。从 https://github.com/yulimfish/agentcontrol-mcp 下载代码，并在 OpenCode 配置中注册为本地 MCP 服务。"
 :::
 
 AI 助手会自动完成以下配置：
