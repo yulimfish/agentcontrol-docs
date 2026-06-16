@@ -27,6 +27,7 @@ export default defineConfig({
         {
           text: '参考',
           items: [
+            { text: 'API 参考', link: '/guide/api-reference' },
             { text: '安全边界', link: '/guide/safety' },
             { text: '常见问题', link: '/guide/faq' }
           ]
